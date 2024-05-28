@@ -1,0 +1,4 @@
+input, expected
+"coala", "coala"
+"jeti", "jeti"
+"toucan", "toucan"
