@@ -15,12 +15,14 @@ public class LoginPage extends BasePage {
 
     @FindBy(id = "login-form-username")
     WebElement userNameField;
+
     @FindBy(id = "login-form-password")
     WebElement passwordField;
+
     @FindBy(id = "login-form-submit")
     WebElement loginButton;
 
-    public void testLogin(){
+    public void handleLogin(){
         userNameField.click();
         userNameField.clear();
         userNameField.sendKeys(userName);

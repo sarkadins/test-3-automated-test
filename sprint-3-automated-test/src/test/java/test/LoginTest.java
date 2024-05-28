@@ -10,27 +10,31 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import java.sql.SQLOutput;
+
 public class LoginTest {
 
     private WebDriver driver;
-    LoginPage loginPage;
-    HomePage homePage;
-    String BASE_URL = "https://jira-auto.codecool.metastage.net/login.jsp";
+    private LoginPage loginPage;
+    private HomePage homePage;
+    private String LOGIN_URL = System.getenv("BASE_URL") + "login.jsp";
 
     @BeforeEach
     public void before() {
         driver = new ChromeDriver();
         loginPage = new LoginPage(driver);
+        driver.get(LOGIN_URL);
+        loginPage.handleLogin();
         homePage = new HomePage(driver);
     }
+
     @AfterEach
     public void after() {
         driver.quit();
     }
+
     @Test
-    public void testLogin() {
-        driver.get(BASE_URL);
-        loginPage.testLogin();
+    public void handleLogin() {
         String actual = homePage.getLoginMessage();
         String expected = "Welcome to Jira Auto";
         Assertions.assertEquals(expected, actual);
