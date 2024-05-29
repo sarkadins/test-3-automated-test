@@ -29,13 +29,11 @@ public class LoginPage extends BasePage {
     }
 
     private void sendDataForUsernameField() {
-        userNameField.click();
         userNameField.clear();
         userNameField.sendKeys(userName);
     }
 
     private void sendDataForPasswordField() {
-        passwordField.click();
         passwordField.clear();
         passwordField.sendKeys(password);
     }

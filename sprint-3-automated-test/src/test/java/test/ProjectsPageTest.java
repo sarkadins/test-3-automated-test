@@ -35,10 +35,9 @@ public class ProjectsPageTest {
 
     @ParameterizedTest
     @CsvFileSource(resources = "/browseProjectData.csv", numLinesToSkip = 1)
-    public void checkBrowseProjectsResult(String input, String expected) throws InterruptedException {
+    public void checkBrowseProjectsResult(String input, String expected) {
         projectsPage.setFilterText(input);
-        Thread.sleep(1000);                         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! FIX IT
-        String actual = projectsPage.getTypeKey().toLowerCase();
+        String actual = projectsPage.getTypeKey(input).toLowerCase();
         Assertions.assertEquals(expected, actual);
     }
 }
