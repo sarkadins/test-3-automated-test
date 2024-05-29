@@ -6,29 +6,42 @@ import org.openqa.selenium.support.FindBy;
 
 public class LoginPage extends BasePage {
 
-    String userName = System.getenv("USER_NAME");
-    String password = System.getenv("PASSWORD");
+    private final String userName = System.getenv("USER_NAME");
+    private final String password = System.getenv("PASSWORD");
 
     public LoginPage(WebDriver driver) {
         super(driver);
     }
 
     @FindBy(id = "login-form-username")
-    WebElement userNameField;
+    private WebElement userNameField;
 
     @FindBy(id = "login-form-password")
-    WebElement passwordField;
+    private WebElement passwordField;
 
     @FindBy(id = "login-form-submit")
-    WebElement loginButton;
+    private WebElement loginButton;
 
     public void handleLogin(){
+        sendDataForUsernameField();
+        sendDataForPasswordField();
+        clickOnLoginButton();
+    }
+
+    private void sendDataForUsernameField() {
         userNameField.click();
         userNameField.clear();
         userNameField.sendKeys(userName);
+    }
+
+    private void sendDataForPasswordField() {
         passwordField.click();
         passwordField.clear();
         passwordField.sendKeys(password);
+    }
+
+    private void clickOnLoginButton() {
         loginButton.click();
     }
+
 }

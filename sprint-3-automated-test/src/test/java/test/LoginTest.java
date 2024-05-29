@@ -34,7 +34,7 @@ public class LoginTest {
     }
 
     @Test
-    public void handleLogin() {
+    public void handleLoginTest() {
         String actual = homePage.getLoginMessage();
         String expected = "Welcome to Jira Auto";
         Assertions.assertEquals(expected, actual);
