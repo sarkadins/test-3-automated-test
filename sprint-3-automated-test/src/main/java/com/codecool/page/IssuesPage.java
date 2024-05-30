@@ -89,8 +89,8 @@ public class IssuesPage extends BasePage {
     @FindBy(id = "fixfor-val")
     private WebElement currentVersionValueIfNone;
 
-    @FindBy(id = "fixVersions-field")
-    private WebElement currentVersionValueIf9;
+    @FindBy(linkText = "999.999")
+    private WebElement currentVersionValueIfAny;
 
     @FindBy(css = "[aria-label=' ']")
     private WebElement deleteCurrentVersionButton;
@@ -159,8 +159,8 @@ public class IssuesPage extends BasePage {
         return confirmUpdateMessage.getText();
     }
 
-    private void editIssueComponents(String input) {
-        var currentComponentsValueText = currentComponentsValueIfAny.getText();
+    private void editIssueComponents(String input){
+        var currentComponentsValueText = wait.until(ExpectedConditions.visibilityOf(currentComponentsValueIfAny)).getText();
 
         if (!currentComponentsValueText.equals(input))
         {
@@ -188,33 +188,42 @@ public class IssuesPage extends BasePage {
         return currentComponentsValueIfAny.getText();
     }
 
-    private void editIssueVersion(String input) {
-        var currentVersionValueText = currentVersionValueIf9.getText();
+    private void editIssueVersion(String input) throws InterruptedException {
+        Thread.sleep(3000);
+        var currentVersionValueText = wait.until(ExpectedConditions.visibilityOf(currentVersionValueIfNone)).getText();
 
         if (!currentVersionValueText.equals(input))
         {
             if (input.equals("None"))
             {
-                action.moveToElement(currentVersionValueIf9).perform();
-                wait.until(ExpectedConditions.visibilityOf(currentVersionValueIf9)).click();
+                action.moveToElement(currentVersionValueIfAny).perform();
+                wait.until(ExpectedConditions.visibilityOf(currentVersionValueIfAny)).click();
+                Thread.sleep(3000);
+                System.out.println("clickmégjó");
                 wait.until(ExpectedConditions.visibilityOf(deleteCurrentVersionButton)).click();
+                Thread.sleep(3000);
                 wait.until(ExpectedConditions.visibilityOf(saveVersionButton)).click();
+                Thread.sleep(3000);
             }
             else
             {
                 action.moveToElement(currentVersionValueIfNone).perform();
                 wait.until(ExpectedConditions.visibilityOf(currentVersionValueIfNone)).click();
+                Thread.sleep(3000);
                 wait.until(ExpectedConditions.visibilityOf(versionDropDownButton)).click();
+                Thread.sleep(3000);
                 wait.until(ExpectedConditions.visibilityOf(versionButton)).click();
+                Thread.sleep(3000);
                 wait.until(ExpectedConditions.visibilityOf(saveVersionButton)).click();
+                Thread.sleep(3000);
             }
         }
     }
 
-    public String getSelectedVersionText(String input) {
+    public String getSelectedVersionText(String input) throws InterruptedException {
         editIssueVersion(input);
-        wait.until(ExpectedConditions.textToBePresentInElement(currentVersionValueIf9, input));
-        return currentVersionValueIf9.getText();
+        wait.until(ExpectedConditions.textToBePresentInElement(currentVersionValueIfAny, input));
+        return currentVersionValueIfAny.getText();
     }
 
 }

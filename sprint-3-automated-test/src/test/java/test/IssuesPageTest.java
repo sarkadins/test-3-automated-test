@@ -15,7 +15,7 @@ class IssuesPageTest {
     private IssuesPage issuesPage;
     private String BROWSE_ISSUES_URL = System.getenv("BASE_URL") + "browse/TOUCAN-100?jql=";
     private String LOGIN_URL = System.getenv("BASE_URL") + "/login.jsp";
-    private String PP_464_ISSUE_URL = System.getenv("BASE_URL") + "browse/PP-464?jql=project%20%3D%20PP";
+    private String PP_464_ISSUE_URL = System.getenv("BASE_URL") + "browse/PP-464";
     private LoginPage loginPage;
 
 
@@ -59,9 +59,10 @@ class IssuesPageTest {
         var actual = issuesPage.getSelectedComponentText(input);
         Assertions.assertEquals(expected, actual);
     }
+
     @ParameterizedTest
     @CsvFileSource(resources = "/versionTypeData.csv", numLinesToSkip = 1)
-    public void testSelectVersionType(String input, String expected) {
+    public void testSelectVersionType(String input, String expected) throws InterruptedException {
         driver.get(PP_464_ISSUE_URL);
         String actual = issuesPage.getSelectedVersionText(input);
         Assertions.assertEquals(expected, actual);
