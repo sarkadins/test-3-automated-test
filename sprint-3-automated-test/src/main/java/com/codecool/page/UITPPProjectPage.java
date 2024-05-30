@@ -70,6 +70,7 @@ public class UITPPProjectPage extends BasePage {
     }
 
     public List<String> getIssueTypesNames() {
+        clickOnIssueTypes();
         return issueTypeElements.stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
