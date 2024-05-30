@@ -7,6 +7,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -20,24 +22,31 @@ public class CreateIssuesPageTest {
     private String CREATE_ISSUES_URL = System.getenv("BASE_URL") + "secure/CreateIssue!default.jspa";
 
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         driver = new ChromeDriver();
         loginPage = new LoginPage(driver);
         driver.get(LOGIN_URL);
         loginPage.handleLogin();
         createIssuesPage = new CreateIssuesPage(driver);
         driver.manage().window().maximize();
-        driver.get(CREATE_ISSUES_URL);
+//        driver.get(CREATE_ISSUES_URL);
     }
 
     @AfterEach
-    public void tearDown(){
+    public void tearDown() throws InterruptedException {
+        Thread.sleep(2000);
         driver.quit();
     }
 
-    @Test
-    public void testH1CreateIssueIsDisplayed() {
-       Assertions.assertTrue(createIssuesPage.isCreateIssueH1Displayed(), "The h1 element with text 'Create Issue' is not displayed.");
+    @ParameterizedTest
+    @CsvFileSource(resources = "/createNewIssueData.csv", numLinesToSkip = 1)
+    public void testCreateNewIssue(String input, String expected){
+        createIssuesPage.createNewIssue(input);
+        String actual = createIssuesPage.getPopupMessageText();
+        Assertions.assertTrue(actual.contains(expected));
     }
+
+
+
 
 }
