@@ -1,0 +1,4 @@
+input, expected
+"BrowseProjectsPermission", "Any logged in user"
+"CreateIssuesPermission", "Any logged in user"
+"EditIssuesPermission", "Any logged in user"
