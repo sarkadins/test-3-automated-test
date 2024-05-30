@@ -1,0 +1,3 @@
+input, expected
+"TestComponent", "TestComponent"
+"None", "None"

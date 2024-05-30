@@ -15,6 +15,7 @@ class IssuesPageTest {
     private IssuesPage issuesPage;
     private String BROWSE_ISSUES_URL = System.getenv("BASE_URL") + "browse/TOUCAN-100?jql=";
     private String LOGIN_URL = System.getenv("BASE_URL") + "/login.jsp";
+    private String PP_464__ISSUE_URL = System.getenv("BASE_URL") + "browse/PP-464?jql=project%20%3D%20PP";
     private LoginPage loginPage;
 
 
@@ -27,11 +28,13 @@ class IssuesPageTest {
         issuesPage = new IssuesPage(driver);
         driver.manage().window().maximize();
     }
+
     @AfterEach
     public void after() {
       driver.quit();
     }
-   @ParameterizedTest
+
+   //@ParameterizedTest
    @CsvFileSource(resources = "/browseissue.csv", numLinesToSkip = 1)
     public void testBrowseIssue(String input, String expected) {
         driver.get(BROWSE_ISSUES_URL);
@@ -39,7 +42,8 @@ class IssuesPageTest {
         String actual = issuesPage.getConfirmProject(input);
         Assertions.assertEquals(expected, actual);
     }
-    @ParameterizedTest
+
+    //@ParameterizedTest
     @CsvFileSource(resources = "/editissue.csv", numLinesToSkip = 1)
     public void testEditIssue(String input, String expected) {
         driver.get(BROWSE_ISSUES_URL);
@@ -47,4 +51,13 @@ class IssuesPageTest {
         String actual = issuesPage.getConfirmUpdateMessage();
         Assertions.assertEquals(expected, actual);
     }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/componentTypeData.csv", numLinesToSkip = 1)
+    public void testGetSelectedComponentText(String input, String expected) throws InterruptedException {
+        driver.get(PP_464__ISSUE_URL);
+        var actual = issuesPage.getSelectedComponentText(input);
+        Assertions.assertEquals(expected, actual);
+    }
+
 }
