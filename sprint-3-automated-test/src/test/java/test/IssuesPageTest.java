@@ -1,6 +1,5 @@
 package test;
 
-import com.codecool.page.HomePage;
 import com.codecool.page.IssuesPage;
 import com.codecool.page.LoginPage;
 import org.junit.jupiter.api.AfterEach;
@@ -13,12 +12,10 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 class IssuesPageTest {
     private WebDriver driver;
-    IssuesPage issuesPage;
-    HomePage homePage;
-    String BROWSE_ISSUES_URL = System.getenv("BASE_URL") + "browse/TOUCAN-100?jql=";
-    String LOGIN_URL = System.getenv("BASE_URL") + "/login.jsp";
-    String EDITCOALA_URL = System.getenv("BASE_URL") + "secure/EditIssue!default.jspa?id=18571";
-    LoginPage loginPage;
+    private IssuesPage issuesPage;
+    private String BROWSE_ISSUES_URL = System.getenv("BASE_URL") + "browse/TOUCAN-100?jql=";
+    private String LOGIN_URL = System.getenv("BASE_URL") + "/login.jsp";
+    private LoginPage loginPage;
 
 
     @BeforeEach
@@ -28,19 +25,18 @@ class IssuesPageTest {
         loginPage = new LoginPage(driver);
         loginPage.handleLogin();
         issuesPage = new IssuesPage(driver);
-        homePage = new HomePage(driver);
         driver.manage().window().maximize();
     }
     @AfterEach
     public void after() {
-      //driver.quit();
+      driver.quit();
     }
-   //@ParameterizedTest
-   //@CsvFileSource(resources = "/browseissue.csv", numLinesToSkip = 1)
+   @ParameterizedTest
+   @CsvFileSource(resources = "/browseissue.csv", numLinesToSkip = 1)
     public void testBrowseIssue(String input, String expected) {
         driver.get(BROWSE_ISSUES_URL);
         issuesPage.selectProject(input);
-        String actual = issuesPage.getConfirmProject();
+        String actual = issuesPage.getConfirmProject(input);
         Assertions.assertEquals(expected, actual);
     }
     @ParameterizedTest

@@ -1,4 +1,4 @@
 input, expected
-"coala", "COALA-1057"
-"jeti", "JETI-1064"
-"toucan", "TOUCAN-100"
+"COALA-1057", "COALA-1057"
+"JETI-1064", "JETI-1064"
+"TOUCAN-100", "TOUCAN-100"
