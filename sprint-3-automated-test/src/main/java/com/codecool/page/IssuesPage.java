@@ -83,6 +83,27 @@ public class IssuesPage extends BasePage {
     @FindBy(linkText = "TestComponent")
     private WebElement testComponentButton;
 
+    @FindBy(css = "span#fixfor-val > .aui-icon.aui-icon-small.aui-iconfont-edit")
+    private WebElement editVersionButton;
+
+    @FindBy(id = "fixfor-val")
+    private WebElement currentVersionValueIfNone;
+
+    @FindBy(id = "fixVersions-field")
+    private WebElement currentVersionValueIf9;
+
+    @FindBy(css = "[aria-label=' ']")
+    private WebElement deleteCurrentVersionButton;
+
+    @FindBy(xpath = "//form[@id='fixVersions-form']//button[@title='Press Alt+s to submit this form']/span[@class='aui-icon aui-icon-small aui-iconfont-success']")
+    private WebElement saveVersionButton;
+
+    @FindBy(css = "div#fixVersions-multi-select > span[role='button']")
+    private WebElement versionDropDownButton;
+
+    @FindBy(linkText = "999.999")
+    private WebElement versionButton;
+
     private void clickCoalaProject() {
         projectDropdown.click();
         coalaProjectCheckBox.click();
@@ -138,8 +159,7 @@ public class IssuesPage extends BasePage {
         return confirmUpdateMessage.getText();
     }
 
-    private void editIssueComponents(String input) throws InterruptedException {
-        Thread.sleep(1000);
+    private void editIssueComponents(String input) {
         var currentComponentsValueText = currentComponentsValueIfAny.getText();
 
         if (!currentComponentsValueText.equals(input))
@@ -162,10 +182,39 @@ public class IssuesPage extends BasePage {
         }
     }
 
-    public String getSelectedComponentText(String input) throws InterruptedException {
+    public String getSelectedComponentText(String input) {
         editIssueComponents(input);
         wait.until(ExpectedConditions.textToBePresentInElement(currentComponentsValueIfAny, input));
         return currentComponentsValueIfAny.getText();
+    }
+
+    private void editIssueVersion(String input) {
+        var currentVersionValueText = currentVersionValueIf9.getText();
+
+        if (!currentVersionValueText.equals(input))
+        {
+            if (input.equals("None"))
+            {
+                action.moveToElement(currentVersionValueIf9).perform();
+                wait.until(ExpectedConditions.visibilityOf(currentVersionValueIf9)).click();
+                wait.until(ExpectedConditions.visibilityOf(deleteCurrentVersionButton)).click();
+                wait.until(ExpectedConditions.visibilityOf(saveVersionButton)).click();
+            }
+            else
+            {
+                action.moveToElement(currentVersionValueIfNone).perform();
+                wait.until(ExpectedConditions.visibilityOf(currentVersionValueIfNone)).click();
+                wait.until(ExpectedConditions.visibilityOf(versionDropDownButton)).click();
+                wait.until(ExpectedConditions.visibilityOf(versionButton)).click();
+                wait.until(ExpectedConditions.visibilityOf(saveVersionButton)).click();
+            }
+        }
+    }
+
+    public String getSelectedVersionText(String input) {
+        editIssueVersion(input);
+        wait.until(ExpectedConditions.textToBePresentInElement(currentVersionValueIf9, input));
+        return currentVersionValueIf9.getText();
     }
 
 }

@@ -19,7 +19,6 @@ public class CreateIssuesPageTest {
     HomePage homePage;
     CreateIssuesPage createIssuesPage;
     private String LOGIN_URL = System.getenv("BASE_URL") + "login.jsp";
-    private String CREATE_ISSUES_URL = System.getenv("BASE_URL") + "secure/CreateIssue!default.jspa";
 
     @BeforeEach
     public void setUp() {
@@ -29,12 +28,10 @@ public class CreateIssuesPageTest {
         loginPage.handleLogin();
         createIssuesPage = new CreateIssuesPage(driver);
         driver.manage().window().maximize();
-//        driver.get(CREATE_ISSUES_URL);
     }
 
     @AfterEach
     public void tearDown() throws InterruptedException {
-        Thread.sleep(2000);
         driver.quit();
     }
 
