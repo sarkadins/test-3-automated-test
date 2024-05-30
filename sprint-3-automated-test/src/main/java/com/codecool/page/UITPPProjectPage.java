@@ -4,6 +4,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class UITPPProjectPage extends BasePage {
 
     public UITPPProjectPage(WebDriver driver) {
@@ -28,6 +31,12 @@ public class UITPPProjectPage extends BasePage {
     @FindBy(css = "div:nth-of-type(2) > .aui.jira-admin-table > tbody > tr:nth-of-type(6) > .grants  dd")
     private WebElement editIssuePermissionCheckField;
 
+    @FindBy(id = "view_project_issuetypes")
+    private WebElement issuetypes;
+
+    @FindBy(className = "project-config-issuetype-name")
+    private List<WebElement> issueTypeElements;
+
     public void clickOnVersions() {
         versions.click();
     }
@@ -36,20 +45,34 @@ public class UITPPProjectPage extends BasePage {
         components.click();
     }
 
-    public void clickOnPermissions() {
+    private void clickOnPermissions() {
         permissions.click();
     }
 
     public String getBrowseProjectPermissionCheckFieldText() {
+        clickOnPermissions();
         return browseProjectPermissionCheckField.getText();
     }
 
     public String getCreateIssuePermissionCheckFieldText() {
+        clickOnPermissions();
         return createIssuePermissionCheckField.getText();
     }
 
     public String getEditIssuePermissionCheckFieldText() {
+        clickOnPermissions();
         return editIssuePermissionCheckField.getText();
+    }
+
+    private void clickOnIssueTypes()
+    {
+        issuetypes.click();
+    }
+
+    public List<String> getIssueTypesNames() {
+        return issueTypeElements.stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
     }
 
 }
